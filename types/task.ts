@@ -8,4 +8,25 @@ interface Task {
   updatedAt: string;
 }
 
-export default Task;
+interface CreateTask {
+  title: string;
+  description: string;
+  priority: number;
+  status: "undone" | "done";
+}
+
+interface UpdateTask {
+  title: string;
+  description: string;
+  priority: number;
+  status: "undone" | "done";
+}
+
+interface HttpResponse {
+  page: number;
+  perPage: number;
+  totalItems: number;
+  totalPages: number;
+  tasks: Task[];
+}
+export { type Task, type CreateTask, type UpdateTask, type HttpResponse };

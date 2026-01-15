@@ -6,11 +6,10 @@ import TasksList from "@/components/TasksList/TasksList";
 import Error from "@/components/Error/Error";
 import Loader from "@/components/Loader/Loader";
 
-import Paginations from "@/components/Pagination/Pagination";
+// import Paginations from "@/components/Pagination/Pagination";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { getTasks } from "@/lib/api/api";
-import { Button } from "@/components/ui/button";
 
 export default function TasksClient() {
   const [search, setSearch] = useState("");
@@ -27,31 +26,20 @@ export default function TasksClient() {
     setSearch(task);
     setPage(1);
   }, 1000);
+
   if (isLoading) return <Loader />;
 
-  if (error || !data)
-    return (
-      <div className="">
-        <p>Oops! We cound&apos;t load your tasks.</p>
-        <p>Please check your connection and try again.</p>
-        <Button
-          type="button"
-          onClick={() => refetch}
-          disabled={isFetching}
-          variant="outline"
-        >
-          {isFetching ? "Trying..." : "Try again"}
-        </Button>
-      </div>
-    );
+  if (error || !data) return <Error refresh={refetch} disabled={isFetching} />;
 
   return (
     <div>
       <header className="">
         <SearchBox onChange={handleSearchBox} value={search} />
-        <Paginations />
+        {/* <Paginations pages={page} /> */}
       </header>
-      {data && data.tasks.length < 1 && <Error />}
+      {data && data.tasks.length < 1 && (
+        <p> No results found. Try adjusting your search.</p>
+      )}
       {isLoading && <Loader />}
       {isSuccess && <TasksList tasks={data.tasks} />}
     </div>
