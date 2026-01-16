@@ -2,9 +2,9 @@ Create task
 
 Get all tasks [X]
 
-Update task
+Update task [X]
 
-delete task
+delete task [X]
 
 search tasks [X]
 

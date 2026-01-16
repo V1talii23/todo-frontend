@@ -2,13 +2,14 @@
 
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import SearchBox from "@/components/SearchBox/SearchBox";
-import TasksList from "@/components/TasksList/TasksList";
+import TasksList from "@/components/TaskList/TasksList";
 import Error from "@/components/Error/Error";
 import Loader from "@/components/Loader/Loader";
 
 // import Paginations from "@/components/Pagination/Pagination";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import { Button } from "@/components/ui/button";
 import { getTasks } from "@/lib/api/api";
 
 export default function TasksClient() {
@@ -36,6 +37,7 @@ export default function TasksClient() {
       <header className="">
         <SearchBox onChange={handleSearchBox} value={search} />
         {/* <Paginations pages={page} /> */}
+        {/* <Button onClick={handleCreate}>Create Task +</Button> */}
       </header>
       {data && data.tasks.length < 1 && (
         <p> No results found. Try adjusting your search.</p>
