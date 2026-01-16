@@ -29,4 +29,7 @@ interface HttpResponse {
   totalPages: number;
   tasks: Task[];
 }
+
+export type Status = "done" | "undone" | "";
+export type Priority = "asc" | "desc";
 export { type Task, type CreateTask, type UpdateTask, type HttpResponse };

@@ -1,15 +1,36 @@
 import axios from "axios";
-import { Task, HttpResponse, CreateTask, UpdateTask } from "@/types/task";
+import {
+  Task,
+  HttpResponse,
+  CreateTask,
+  UpdateTask,
+  Priority,
+  Status,
+} from "@/types/task";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL: baseUrl,
 });
 
-const getTasks = async (search: string, page: number) => {
-  const { data } = await api.get<HttpResponse>("/tasks", {
-    params: { search, page },
-  });
+interface GetTasksParams {
+  search: string;
+  page: number;
+  status?: "undone" | "done" | "";
+  priority?: "asc" | "desc";
+}
+
+const getTasks = async ({ search, page, status, priority }: GetTasksParams) => {
+  const params: Record<string, string | number> = {
+    search,
+    page,
+    sortOrder: priority as Priority,
+  };
+  if (status === "done" || status || "undone") {
+    params.status = status as Status;
+  }
+
+  const { data } = await api.get<HttpResponse>("/tasks", { params });
   return data;
 };
 

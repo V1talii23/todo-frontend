@@ -10,9 +10,9 @@ search tasks [X]
 
 Mark a task as done
 
-Filter tasks (all / done / undone)
+Filter tasks (all / done / undone) [X]
 
-Sort by priority (1-10)
+Sort by priority (1-10) [X]
 
 Display a list of all tasks [X]
 
