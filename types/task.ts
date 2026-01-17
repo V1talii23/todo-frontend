@@ -8,18 +8,18 @@ interface Task {
   updatedAt: string;
 }
 
-interface CreateTask {
+interface TaskMutationProps {
   title: string;
   description: string;
   priority: number;
   status: "undone" | "done";
 }
 
-interface UpdateTask {
-  title: string;
-  description: string;
-  priority: number;
-  status: "undone" | "done";
+interface UpdateTaskProps {
+  title?: string;
+  description?: string;
+  priority?: number;
+  status?: "undone" | "done";
 }
 
 interface HttpResponse {
@@ -31,5 +31,11 @@ interface HttpResponse {
 }
 
 export type Status = "done" | "undone" | "";
-export type Priority = "asc" | "desc";
-export { type Task, type CreateTask, type UpdateTask, type HttpResponse };
+export type SortOder = "asc" | "desc";
+
+export {
+  type Task,
+  type TaskMutationProps,
+  type HttpResponse,
+  type UpdateTaskProps,
+};

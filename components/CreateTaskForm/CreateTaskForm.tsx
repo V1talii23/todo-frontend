@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,15 +20,59 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useMutation } from "@tanstack/react-query";
+import { TaskMutationProps, Status } from "@/types/task";
+import { createTask } from "@/lib/api/api";
+import { useQueryClient } from "@tanstack/react-query";
+import TaskSchema from "@/schemas/taskSchema";
+import { useState } from "react";
+import { toast } from "sonner";
 
-export default function TaskForm() {
+export default function CreateTaskForm() {
+  const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: TaskMutationProps) => createTask(data),
+  });
+
+  const handleSubmit = (formData: FormData) => {
+    const rawData = {
+      title: (formData.get("title") as string).trim(),
+      description: (formData.get("description") as string).trim(),
+      priority: Number(formData.get("priority") as string),
+      status: formData.get("status") as Status,
+    };
+
+    const result = TaskSchema.safeParse(rawData);
+
+    if (!result.success) {
+      toast.error("Please fill all the fields to create new task", {
+        position: "top-center",
+      });
+      return;
+    }
+
+    mutate(result.data, {
+      onSuccess: (data) => {
+        console.log("Created task:", data);
+        queryClient.invalidateQueries({ queryKey: ["tasks"] });
+        // clearDraft();
+        toast.success("Task created!", { position: "top-center" });
+        setOpen(false);
+      },
+      onError: (error) => {
+        console.log(error.message);
+      },
+    });
+  };
+
   return (
-    <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button variant="outline">Create task +</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline">Create task +</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <form action={handleSubmit}>
           <DialogHeader>
             <DialogTitle>New task</DialogTitle>
             <DialogDescription>
@@ -52,7 +97,7 @@ export default function TaskForm() {
             <div className="grid grid-cols-2 gap-4">
               <Field>
                 <FieldLabel htmlFor="checkout-Priority">Priority</FieldLabel>
-                <Select defaultValue="">
+                <Select name="priority" defaultValue="1">
                   <SelectTrigger id="checkout-Priority">
                     <SelectValue placeholder="Priority" />
                   </SelectTrigger>
@@ -73,7 +118,7 @@ export default function TaskForm() {
 
               <Field>
                 <FieldLabel htmlFor="checkout-Status">Status</FieldLabel>
-                <Select defaultValue="undone">
+                <Select name="status" defaultValue="undone">
                   <SelectTrigger id="checkout-Status">
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
@@ -85,14 +130,16 @@ export default function TaskForm() {
               </Field>
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="">
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Creating..." : "Create task"}
+            </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }

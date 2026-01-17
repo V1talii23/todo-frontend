@@ -6,23 +6,24 @@ import TasksList from "@/components/TaskList/TasksList";
 import Error from "@/components/Error/Error";
 import Loader from "@/components/Loader/Loader";
 import FilterDropDownMenu from "@/components/DropdownMenu/DropdownMenu";
-import { Priority } from "@/types/task";
+import { SortOder } from "@/types/task";
 import { Status } from "@/types/task";
-import Modal from "@/components/Modal/Modal";
 // import Paginations from "@/components/Pagination/Pagination";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { getTasks } from "@/lib/api/api";
+import CreateTaskForm from "@/components/CreateTaskForm/CreateTaskForm";
 
 export default function TasksClient() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<Status>("undone");
-  const [priority, setPriority] = useState<Priority>("desc");
+  const [order, setOrder] = useState<SortOder>("desc");
+  const [sortBy, setSortBy] = useState<string>("createdAt");
 
   const { data, isLoading, error, isSuccess, isFetching, refetch } = useQuery({
-    queryKey: ["tasks", search, page, status, priority],
-    queryFn: () => getTasks({ search, page, status, priority }),
+    queryKey: ["tasks", search, page, status, order, sortBy],
+    queryFn: () => getTasks({ search, page, status, order, sortBy }),
     placeholderData: keepPreviousData,
     staleTime: 60 * 1000,
   });
@@ -43,14 +44,15 @@ export default function TasksClient() {
           <SearchBox onChange={handleSearchBox} value={search} />
           <FilterDropDownMenu
             status={status}
-            priority={priority}
-            onPriorityChange={setPriority}
+            order={order}
+            sortBy={sortBy}
+            onOrderChange={setOrder}
             onStatusChange={setStatus}
+            onSortByChange={setSortBy}
           />
-          <Modal />
+          <CreateTaskForm />
         </div>
         {/* <Paginations pages={page} /> */}
-        {/* <Button onClick={handleCreate}>Create Task +</Button> */}
       </header>
       {data && data.tasks.length < 1 && (
         <p> No results found. Try adjusting your search.</p>

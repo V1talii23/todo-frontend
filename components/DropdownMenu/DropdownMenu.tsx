@@ -16,20 +16,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 type Status = "done" | "undone" | "";
-type Priority = "asc" | "desc";
+type SortOrder = "asc" | "desc";
 
 interface FilterDropDownMenuProps {
   status: Status;
-  priority: Priority;
+  order: SortOrder;
+  sortBy: string;
   onStatusChange: (status: Status) => void;
-  onPriorityChange: (priority: Priority) => void;
+  onOrderChange: (order: SortOrder) => void;
+  onSortByChange: (sortBy: string) => void;
 }
 
 export default function FilterDropDownMenu({
   status,
-  priority,
-  onPriorityChange,
+  order,
+  sortBy,
+  onOrderChange,
   onStatusChange,
+  onSortByChange,
 }: FilterDropDownMenuProps) {
   return (
     <DropdownMenu>
@@ -37,14 +41,14 @@ export default function FilterDropDownMenu({
         <Button variant="outline">Filter Tasks</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
-        <DropdownMenuLabel>Filteres</DropdownMenuLabel>
+        <DropdownMenuLabel>Filters</DropdownMenuLabel>
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>by priority</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>Sort Direction</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuRadioGroup
-                value={priority}
-                onValueChange={(priority) => onPriorityChange(priority)}
+                value={order}
+                onValueChange={(order) => onOrderChange(order)}
               >
                 <DropdownMenuRadioItem value="asc">
                   Low → High
@@ -60,7 +64,31 @@ export default function FilterDropDownMenu({
         <DropdownMenuSeparator />
 
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger> by status</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>Sort Field</DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuRadioGroup
+                value={sortBy}
+                onValueChange={(sortBy) => onSortByChange(sortBy)}
+              >
+                <DropdownMenuRadioItem value="createdAt">
+                  Created Date
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="updatedAt">
+                  Updated Date
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="priority">
+                  Priority
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Status Filter</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuRadioGroup

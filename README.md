@@ -1,4 +1,4 @@
-Create task
+Create task [X]
 
 Get all tasks [X]
 
@@ -25,3 +25,7 @@ Next.js, React and tailwind
 Backend → Render
 
 Frontend → Vercel
+
+create a check box inside a taskItem element, onChange should send a updateTask to the server, change status.
+add Pagination to Task page
+Fix page look with Tailwind css

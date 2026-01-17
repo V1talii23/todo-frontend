@@ -2,10 +2,10 @@ import axios from "axios";
 import {
   Task,
   HttpResponse,
-  CreateTask,
-  UpdateTask,
-  Priority,
+  TaskMutationProps,
+  SortOder,
   Status,
+  UpdateTaskProps,
 } from "@/types/task";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,16 +17,24 @@ interface GetTasksParams {
   search: string;
   page: number;
   status?: "undone" | "done" | "";
-  priority?: "asc" | "desc";
+  order?: "asc" | "desc";
+  sortBy?: string;
 }
 
-const getTasks = async ({ search, page, status, priority }: GetTasksParams) => {
+const getTasks = async ({
+  search,
+  page,
+  status,
+  order,
+  sortBy,
+}: GetTasksParams) => {
   const params: Record<string, string | number> = {
     search,
     page,
-    sortOrder: priority as Priority,
+    sortOrder: order as SortOder,
+    sortBy: sortBy || "createdAt",
   };
-  if (status === "done" || status || "undone") {
+  if (status === "done" || status === "undone") {
     params.status = status as Status;
   }
 
@@ -39,12 +47,12 @@ const getTaskById = async (id: string) => {
   return data;
 };
 
-const createTask = async (task: CreateTask) => {
+const createTask = async (task: TaskMutationProps) => {
   const { data } = await api.post<Task>("/tasks", task);
   return data;
 };
 
-const updateTask = async (id: string, updates: UpdateTask) => {
+const updateTask = async (id: string, updates: UpdateTaskProps) => {
   const { data } = await api.patch<Task>(`/tasks/${id}`, updates);
   return data;
 };

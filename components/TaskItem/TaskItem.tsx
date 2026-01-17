@@ -26,7 +26,9 @@ export default function TaskItem({ task, disabled, onClick }: TaskItemProps) {
       </ItemContent>
       <ItemActions>
         <Button variant="outline" size="sm">
-          View more
+          Mark as {status === "done" ? " Undone" : " Done"}
+          {/* onClick={() => {}} */}
+          {/* disabled={disabled} */}
         </Button>
         <Button
           onClick={() => onClick(task._id)}
