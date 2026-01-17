@@ -8,6 +8,7 @@ import Loader from "@/components/Loader/Loader";
 import FilterDropDownMenu from "@/components/DropdownMenu/DropdownMenu";
 import { Priority } from "@/types/task";
 import { Status } from "@/types/task";
+import Modal from "@/components/Modal/Modal";
 // import Paginations from "@/components/Pagination/Pagination";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
@@ -36,15 +37,18 @@ export default function TasksClient() {
   if (error || !data) return <Error refresh={refetch} disabled={isFetching} />;
 
   return (
-    <div>
+    <div className="flex flex-coluns min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <header className="">
-        <SearchBox onChange={handleSearchBox} value={search} />
-        <FilterDropDownMenu
-          status={status}
-          priority={priority}
-          onPriorityChange={setPriority}
-          onStatusChange={setStatus}
-        />
+        <div className="grid grid-cols-3 gap-4">
+          <SearchBox onChange={handleSearchBox} value={search} />
+          <FilterDropDownMenu
+            status={status}
+            priority={priority}
+            onPriorityChange={setPriority}
+            onStatusChange={setStatus}
+          />
+          <Modal />
+        </div>
         {/* <Paginations pages={page} /> */}
         {/* <Button onClick={handleCreate}>Create Task +</Button> */}
       </header>
