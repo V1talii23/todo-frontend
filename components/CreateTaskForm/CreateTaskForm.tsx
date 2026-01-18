@@ -90,7 +90,7 @@ export default function CreateTaskForm() {
       <DialogTrigger asChild>
         <Button variant="outline">Create task +</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-106.25">
+      <DialogContent className=" bg-zinc-50 dark:bg-gray-900 sm:max-w-106.25">
         <form action={handleSubmit}>
           <DialogHeader>
             <DialogTitle>New task</DialogTitle>
@@ -175,7 +175,7 @@ export default function CreateTaskForm() {
             </div>
           </div>
 
-          <DialogFooter className="">
+          <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>

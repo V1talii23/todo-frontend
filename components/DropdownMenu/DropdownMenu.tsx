@@ -17,7 +17,7 @@ import {
 import { Status, SortOrder } from "@/types/task";
 
 interface FilterDropDownMenuProps {
-  status: Status | "";
+  status: Status;
   order: SortOrder;
   sortBy: string;
   onStatusChange: (status: Status) => void;
@@ -93,7 +93,7 @@ export default function FilterDropDownMenu({
                 value={status}
                 onValueChange={(status) => onStatusChange(status as Status)}
               >
-                <DropdownMenuRadioItem value="">All</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="done">Done</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="undone">
                   Undone

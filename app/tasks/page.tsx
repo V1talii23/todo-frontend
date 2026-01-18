@@ -12,7 +12,7 @@ export default async function TasksPage() {
 
   await queryClient.prefetchQuery({
     queryKey: ["tasks"],
-    queryFn: () => getTasks({ search: "", page: 1 }),
+    queryFn: () => getTasks({ search: "", page: 1, status: "undone" }),
   });
 
   return (

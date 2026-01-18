@@ -7,6 +7,7 @@ import {
   Status,
   UpdateTaskProps,
 } from "@/types/task";
+
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
@@ -34,10 +35,8 @@ const getTasks = async ({
     sortOrder: order as SortOrder,
     sortBy: sortBy || "createdAt",
     perPage: 9,
+    status: status || "all",
   };
-  if (status === "done" || status === "undone") {
-    params.status = status as Status;
-  }
 
   const { data } = await api.get<HttpResponse>("/tasks", { params });
   return data;
