@@ -1,7 +1,9 @@
 export default function Loading() {
   return (
-    <p className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-      Loading, please wait...
-    </p>
+    <div className="text-center py-12">
+      <p className="text-gray-500 dark:text-gray-400 text-lg">
+        Loading, please wait...
+      </p>
+    </div>
   );
 }

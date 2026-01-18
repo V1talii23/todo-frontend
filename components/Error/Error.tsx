@@ -5,12 +5,14 @@ interface ErrorProps {
   disabled: boolean;
 }
 export default function Error({ refresh, disabled }: ErrorProps) {
-  // return <p className="">No results found. Try adjusting your search.</p>;
-
   return (
-    <div className="">
-      <p>Oops! We cound&apos;t load your tasks.</p>
-      <p>Please check your connection and try again.</p>
+    <div className="text-center py-12">
+      <p className="text-gray-500 dark:text-gray-400 text-lg">
+        Oops! We cound&apos;t load your tasks.
+      </p>
+      <p className="text-gray-500 dark:text-gray-400 text-lg">
+        Please check your connection and try again.
+      </p>
       <Button
         type="button"
         onClick={refresh}

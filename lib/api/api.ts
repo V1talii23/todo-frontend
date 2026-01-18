@@ -33,7 +33,7 @@ const getTasks = async ({
     page,
     sortOrder: order as SortOrder,
     sortBy: sortBy || "createdAt",
-    perPage: 5,
+    perPage: 9,
   };
   if (status === "done" || status === "undone") {
     params.status = status as Status;

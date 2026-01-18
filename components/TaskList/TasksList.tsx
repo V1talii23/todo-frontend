@@ -19,7 +19,13 @@ export default function TasksList({ tasks }: TasksListProps) {
   });
 
   const updateTaskMutation = useMutation({
-    mutationFn: ({ id, currentStatus }: { id: string; currentStatus: string }) => {
+    mutationFn: ({
+      id,
+      currentStatus,
+    }: {
+      id: string;
+      currentStatus: string;
+    }) => {
       const newStatus = currentStatus === "done" ? "undone" : "done";
       return updateTask(id, { status: newStatus as "done" | "undone" });
     },
@@ -30,18 +36,22 @@ export default function TasksList({ tasks }: TasksListProps) {
   });
 
   return (
-    <ul className="">
-      {tasks.map((task) => (
-        <TaskItem
-          onCheckedChange={(id) =>
-            updateTaskMutation.mutate({ id, currentStatus: task.status })
-          }
-          key={task._id}
-          task={task}
-          disabled={deleteTaskMutation.isPending || updateTaskMutation.isPending}
-          onClick={deleteTaskMutation.mutate}
-        />
-      ))}
-    </ul>
+    <div className="space-y-4">
+      <ul className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {tasks.map((task) => (
+          <TaskItem
+            onCheckedChange={(id) =>
+              updateTaskMutation.mutate({ id, currentStatus: task.status })
+            }
+            key={task._id}
+            task={task}
+            disabled={
+              deleteTaskMutation.isPending || updateTaskMutation.isPending
+            }
+            onClick={deleteTaskMutation.mutate}
+          />
+        ))}
+      </ul>
+    </div>
   );
 }

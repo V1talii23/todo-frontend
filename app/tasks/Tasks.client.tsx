@@ -38,31 +38,57 @@ export default function TasksClient() {
   if (error || !data) return <Error refresh={refetch} disabled={isFetching} />;
 
   return (
-    <div className="flex flex-coluns min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <header className="">
-        <div className="grid grid-cols-3 gap-4">
-          <SearchBox onChange={handleSearchBox} value={search} />
-          <FilterDropDownMenu
-            status={status}
-            order={order}
-            sortBy={sortBy}
-            onOrderChange={setOrder}
-            onStatusChange={setStatus}
-            onSortByChange={setSortBy}
-          />
-          <CreateTaskForm />
+    <div className="min-h-screen bg-zinc-50 dark:bg-black p-6">
+      <header className="mb-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+            My Tasks
+          </h1>
+
+          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between bg-white dark:bg-black rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+              <div className="w-full sm:w-64">
+                <SearchBox onChange={handleSearchBox} value={search} />
+              </div>
+              <FilterDropDownMenu
+                status={status}
+                order={order}
+                sortBy={sortBy}
+                onOrderChange={setOrder}
+                onStatusChange={setStatus}
+                onSortByChange={setSortBy}
+              />
+            </div>
+            <CreateTaskForm />
+          </div>
         </div>
-        <Paginations
-          handleChangePage={setPage}
-          currentPage={page}
-          pages={data?.totalPages || 1}
-        />
       </header>
-      {data && data.tasks.length < 1 && (
-        <p> No results found. Try adjusting your search.</p>
-      )}
-      {isLoading && <Loader />}
-      {isSuccess && <TasksList tasks={data.tasks} />}
+
+      <main className="max-w-7xl mx-auto">
+        {data && data.tasks.length < 1 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 dark:text-gray-400 text-lg">
+              No results found. Try adjusting your search.
+            </p>
+          </div>
+        )}
+
+        {isSuccess && (
+          <div className="mb-8">
+            <TasksList tasks={data.tasks} />
+          </div>
+        )}
+
+        {data && data.tasks.length > 0 && (
+          <div className="flex justify-center mt-8 bg-white dark:bg-black rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <Paginations
+              handleChangePage={setPage}
+              currentPage={page}
+              pages={data?.totalPages || 1}
+            />
+          </div>
+        )}
+      </main>
     </div>
   );
 }
