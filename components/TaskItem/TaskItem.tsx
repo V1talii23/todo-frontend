@@ -7,14 +7,21 @@ import {
 } from "@/components/ui/item";
 import { Task } from "@/types/task";
 import { Button } from "@/components/ui/button";
-
+import { Checkbox } from "@/components//ui/checkbox";
+import { Label } from "../ui/label";
 interface TaskItemProps {
   task: Task;
   onClick: (id: string) => void;
   disabled: boolean;
+  onCheckedChange: (id: string) => void;
 }
 
-export default function TaskItem({ task, disabled, onClick }: TaskItemProps) {
+export default function TaskItem({
+  task,
+  disabled,
+  onClick,
+  onCheckedChange,
+}: TaskItemProps) {
   const { _id, title, description, priority, status } = task;
   return (
     <Item id={_id} variant="outline">
@@ -22,14 +29,16 @@ export default function TaskItem({ task, disabled, onClick }: TaskItemProps) {
         <ItemTitle>{title}</ItemTitle>
         <ItemDescription>{description}</ItemDescription>
         <ItemDescription>Priority: {priority}</ItemDescription>
-        <ItemDescription>Status: {status}</ItemDescription>
+        <Label>
+          <ItemDescription>Completed</ItemDescription>
+          <Checkbox
+            className="ml-2"
+            checked={status === "done"}
+            onCheckedChange={() => onCheckedChange(task._id)}
+          />
+        </Label>
       </ItemContent>
       <ItemActions>
-        <Button variant="outline" size="sm">
-          Mark as {status === "done" ? " Undone" : " Done"}
-          {/* onClick={() => {}} */}
-          {/* disabled={disabled} */}
-        </Button>
         <Button
           onClick={() => onClick(task._id)}
           disabled={disabled}

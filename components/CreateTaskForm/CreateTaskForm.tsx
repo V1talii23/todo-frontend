@@ -27,36 +27,46 @@ import { useQueryClient } from "@tanstack/react-query";
 import TaskSchema from "@/schemas/taskSchema";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTaskDraft } from "@/store/taskStore";
 
 export default function CreateTaskForm() {
   const [open, setOpen] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const { draft, setDraft, clearDraft } = useTaskDraft();
   const queryClient = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationFn: (data: TaskMutationProps) => createTask(data),
   });
 
-  const handleSubmit = (formData: FormData) => {
+  const handleSubmit = () => {
     const rawData = {
-      title: (formData.get("title") as string).trim(),
-      description: (formData.get("description") as string).trim(),
-      priority: Number(formData.get("priority") as string),
-      status: formData.get("status") as Status,
+      title: draft.title.trim(),
+      description: draft.description.trim(),
+      priority: draft.priority,
+      status: draft.status as Status,
     };
 
     const result = TaskSchema.safeParse(rawData);
 
     if (!result.success) {
-      toast.error("Please fill all the fields to create new task", {
-        position: "top-center",
+      const fieldErrors: Record<string, string> = {};
+      result.error.issues.forEach((error) => {
+        const fieldName = error.path[0] as string;
+        fieldErrors[fieldName] = error.message;
       });
+      setErrors(fieldErrors);
+
       return;
     }
+
+    setErrors({});
 
     mutate(result.data, {
       onSuccess: (data) => {
         console.log("Created task:", data);
         queryClient.invalidateQueries({ queryKey: ["tasks"] });
-        // clearDraft();
+        clearDraft();
         toast.success("Task created!", { position: "top-center" });
         setOpen(false);
       },
@@ -64,6 +74,15 @@ export default function CreateTaskForm() {
         console.log(error.message);
       },
     });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setDraft({ ...draft, [name]: value });
+  };
+
+  const handleSelectChange = (value: string, fieldName: string) => {
+    setDraft({ ...draft, [fieldName]: value });
   };
 
   return (
@@ -83,21 +102,43 @@ export default function CreateTaskForm() {
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="title-1">Title</Label>
-              <Input id="title-1" name="title" placeholder="Task title" />
+              <Input
+                id="title-1"
+                name="title"
+                value={draft.title}
+                placeholder="Task title"
+                onChange={handleInputChange}
+              />
+              {errors.title && (
+                <span className="text-sm text-red-500">{errors.title}</span>
+              )}
             </div>
             <div className="grid gap-3">
               <Label htmlFor="description-1">Description</Label>
               <Input
                 id="description-1"
                 name="description"
+                value={draft.description}
                 placeholder="Description"
+                onChange={handleInputChange}
               />
+              {errors.description && (
+                <span className="text-sm text-red-500">
+                  {errors.description}
+                </span>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <Field>
                 <FieldLabel htmlFor="checkout-Priority">Priority</FieldLabel>
-                <Select name="priority" defaultValue="1">
+                <Select
+                  value={draft.priority.toString()}
+                  onValueChange={(value) =>
+                    handleSelectChange(value, "priority")
+                  }
+                  defaultValue="1"
+                >
                   <SelectTrigger id="checkout-Priority">
                     <SelectValue placeholder="Priority" />
                   </SelectTrigger>
@@ -118,7 +159,10 @@ export default function CreateTaskForm() {
 
               <Field>
                 <FieldLabel htmlFor="checkout-Status">Status</FieldLabel>
-                <Select name="status" defaultValue="undone">
+                <Select
+                  value={draft.status}
+                  onValueChange={(value) => handleSelectChange(value, "status")}
+                >
                   <SelectTrigger id="checkout-Status">
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>

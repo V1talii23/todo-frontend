@@ -14,12 +14,10 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
-
-type Status = "done" | "undone" | "";
-type SortOrder = "asc" | "desc";
+import { Status, SortOrder } from "@/types/task";
 
 interface FilterDropDownMenuProps {
-  status: Status;
+  status: Status | "";
   order: SortOrder;
   sortBy: string;
   onStatusChange: (status: Status) => void;

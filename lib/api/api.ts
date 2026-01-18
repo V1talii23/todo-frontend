@@ -3,7 +3,7 @@ import {
   Task,
   HttpResponse,
   TaskMutationProps,
-  SortOder,
+  SortOrder,
   Status,
   UpdateTaskProps,
 } from "@/types/task";
@@ -31,7 +31,7 @@ const getTasks = async ({
   const params: Record<string, string | number> = {
     search,
     page,
-    sortOrder: order as SortOder,
+    sortOrder: order as SortOrder,
     sortBy: sortBy || "createdAt",
   };
   if (status === "done" || status === "undone") {

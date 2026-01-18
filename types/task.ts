@@ -1,9 +1,12 @@
+export type Status = "done" | "undone";
+export type SortOrder = "asc" | "desc";
+
 interface Task {
   _id: string;
   title: string;
   description: string;
   priority: number;
-  status: "undone" | "done";
+  status: Status;
   createdAt: string;
   updatedAt: string;
 }
@@ -11,15 +14,15 @@ interface Task {
 interface TaskMutationProps {
   title: string;
   description: string;
-  priority: number;
-  status: "undone" | "done";
+  priority: number | string;
+  status: Status;
 }
 
 interface UpdateTaskProps {
   title?: string;
   description?: string;
   priority?: number;
-  status?: "undone" | "done";
+  status?: Status;
 }
 
 interface HttpResponse {
@@ -29,9 +32,6 @@ interface HttpResponse {
   totalPages: number;
   tasks: Task[];
 }
-
-export type Status = "done" | "undone" | "";
-export type SortOder = "asc" | "desc";
 
 export {
   type Task,

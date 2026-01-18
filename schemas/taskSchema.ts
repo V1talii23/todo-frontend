@@ -5,7 +5,7 @@ const TaskSchema = z.object({
   description: z
     .string()
     .min(3, "Description should have at least 3 characters"),
-  priority: z.number().min(1).max(10),
+  priority: z.coerce.number().min(1).max(10),
   status: z.enum(["done", "undone"]),
 });
 

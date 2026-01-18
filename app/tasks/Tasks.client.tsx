@@ -6,7 +6,7 @@ import TasksList from "@/components/TaskList/TasksList";
 import Error from "@/components/Error/Error";
 import Loader from "@/components/Loader/Loader";
 import FilterDropDownMenu from "@/components/DropdownMenu/DropdownMenu";
-import { SortOder } from "@/types/task";
+import { SortOrder } from "@/types/task";
 import { Status } from "@/types/task";
 // import Paginations from "@/components/Pagination/Pagination";
 import { useState } from "react";
@@ -17,8 +17,8 @@ import CreateTaskForm from "@/components/CreateTaskForm/CreateTaskForm";
 export default function TasksClient() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [status, setStatus] = useState<Status>("undone");
-  const [order, setOrder] = useState<SortOder>("desc");
+  const [status, setStatus] = useState<Status | "">("undone");
+  const [order, setOrder] = useState<SortOrder>("desc");
   const [sortBy, setSortBy] = useState<string>("createdAt");
 
   const { data, isLoading, error, isSuccess, isFetching, refetch } = useQuery({
