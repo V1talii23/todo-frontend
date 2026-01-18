@@ -46,7 +46,7 @@ export default function FilterDropDownMenu({
             <DropdownMenuSubContent>
               <DropdownMenuRadioGroup
                 value={order}
-                onValueChange={(order) => onOrderChange(order)}
+                onValueChange={(order: SortOrder) => onOrderChange(order)}
               >
                 <DropdownMenuRadioItem value="asc">
                   Low → High
