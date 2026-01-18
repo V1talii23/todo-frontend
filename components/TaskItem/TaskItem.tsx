@@ -9,6 +9,7 @@ import { Task } from "@/types/task";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components//ui/checkbox";
 import { Label } from "../ui/label";
+
 interface TaskItemProps {
   task: Task;
   onClick: (id: string) => void;

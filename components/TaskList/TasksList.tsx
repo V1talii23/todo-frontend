@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Task } from "@/types/task";
 import TaskItem from "../TaskItem/TaskItem";
 import { deleteTask, updateTask } from "@/lib/api/api";
+
 interface TasksListProps {
   tasks: Task[];
 }
