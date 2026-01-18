@@ -99,7 +99,7 @@ export default function CreateTaskForm() {
               organized.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
+          <div className="grid gap-4 ">
             <div className="grid gap-3">
               <Label htmlFor="title-1">Title</Label>
               <Input

@@ -1,4 +1,4 @@
-export type Status = "done" | "undone";
+export type Status = "done" | "undone" | "all";
 export type SortOrder = "asc" | "desc";
 
 interface Task {

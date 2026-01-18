@@ -16,8 +16,8 @@ const api = axios.create({
 interface GetTasksParams {
   search: string;
   page: number;
-  status?: "undone" | "done" | "";
-  order?: "asc" | "desc";
+  status?: Status;
+  order?: SortOrder;
   sortBy?: string;
 }
 

@@ -91,7 +91,7 @@ export default function FilterDropDownMenu({
             <DropdownMenuSubContent>
               <DropdownMenuRadioGroup
                 value={status}
-                onValueChange={(status) => onStatusChange(status)}
+                onValueChange={(status) => onStatusChange(status as Status)}
               >
                 <DropdownMenuRadioItem value="">All</DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="done">Done</DropdownMenuRadioItem>

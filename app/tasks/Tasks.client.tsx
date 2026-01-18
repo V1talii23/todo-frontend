@@ -17,7 +17,7 @@ import CreateTaskForm from "@/components/CreateTaskForm/CreateTaskForm";
 export default function TasksClient() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [status, setStatus] = useState<Status | "">("undone");
+  const [status, setStatus] = useState<Status>("undone");
   const [order, setOrder] = useState<SortOrder>("desc");
   const [sortBy, setSortBy] = useState<string>("createdAt");
 
