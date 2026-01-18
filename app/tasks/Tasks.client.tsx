@@ -8,7 +8,7 @@ import Loader from "@/components/Loader/Loader";
 import FilterDropDownMenu from "@/components/DropdownMenu/DropdownMenu";
 import { SortOrder } from "@/types/task";
 import { Status } from "@/types/task";
-// import Paginations from "@/components/Pagination/Pagination";
+import Paginations from "@/components/Pagination/Pagination";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { getTasks } from "@/lib/api/api";
@@ -52,7 +52,11 @@ export default function TasksClient() {
           />
           <CreateTaskForm />
         </div>
-        {/* <Paginations pages={page} /> */}
+        <Paginations
+          handleChangePage={setPage}
+          currentPage={page}
+          pages={data?.totalPages || 1}
+        />
       </header>
       {data && data.tasks.length < 1 && (
         <p> No results found. Try adjusting your search.</p>

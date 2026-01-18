@@ -90,7 +90,7 @@ export default function CreateTaskForm() {
       <DialogTrigger asChild>
         <Button variant="outline">Create task +</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <form action={handleSubmit}>
           <DialogHeader>
             <DialogTitle>New task</DialogTitle>

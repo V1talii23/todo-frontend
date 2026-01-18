@@ -1,14 +1,5 @@
 import ResponsivePagination from "react-responsive-pagination";
 import "react-responsive-pagination/themes/classic-light-dark.css";
-// import {
-//   Pagination,
-//   PaginationContent,
-//   PaginationEllipsis,
-//   PaginationItem,
-//   PaginationLink,
-//   PaginationNext,
-//   PaginationPrevious,
-// } from "../ui/pagination";
 
 interface PaginationProps {
   pages: number;
@@ -23,26 +14,12 @@ export default function Paginations({
 }: PaginationProps) {
   return (
     <ResponsivePagination
+      activeItemClassName=" p-1 text-input"
+      pageItemClassName="my-2"
+      pageLinkClassName="border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-3 py-2 rounded-md mx-1 cursor-pointer transition-all"
       current={currentPage}
       total={pages}
       onPageChange={handleChangePage}
     />
   );
-  // return (
-  //   <Pagination>
-  //     <PaginationContent>
-  //       <PaginationItem>
-  //         <PaginationPrevious href="#" />
-  //       </PaginationItem>
-  //       <PaginationItem>
-  //         <PaginationLink href="#">1</PaginationLink>
-  //       </PaginationItem>
-  //       <PaginationItem>
-  //         <PaginationEllipsis />
-  //       </PaginationItem>
-  //       <PaginationItem>
-  //         <PaginationNext href="#" />
-  //       </PaginationItem>
-  //     </PaginationContent>
-  //   </Pagination>
 }
